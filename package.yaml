@@ -1,0 +1,65 @@
+name:                kcl
+version:             0.1.0.0
+github:              seek-oss/amazon-kinesis-client-haskell
+license:             BSD3
+author:              Tom Mortiboy
+maintainer:          Tom Mortiboy
+copyright:           2020 seek-oss
+
+extra-source-files:
+- README.md
+- ChangeLog.md
+
+description:         Please see the README on GitHub at <https://github.com/seek-oss/amazon-kinesis-client-haskell#readme>
+
+dependencies:
+- base >= 4.7 && < 5
+- aeson
+- bytestring
+- exceptions
+- lens
+- memory
+- text
+- time
+
+default-extensions:
+- LambdaCase
+- OverloadedStrings
+- RecordWildCards
+- ScopedTypeVariables
+
+library:
+  source-dirs: src
+  ghc-options:
+  - -Wall
+
+executables:
+  kcl-sample-app:
+    main:                Main.hs
+    source-dirs:         sample-app
+    ghc-options:
+    - -Wall
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N
+    dependencies:
+    - kcl
+    - safe-exceptions
+
+  kcl-bootstrap:
+    main:                Main.hs
+    source-dirs:         bootstrap
+    ghc-options:
+    - -Wall
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N
+    dependencies:
+    - directory
+    - filepath
+    - http-client
+    - http-conduit
+    - kcl
+    - optparse-applicative
+    - process
+    - text
