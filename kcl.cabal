@@ -1,0 +1,104 @@
+cabal-version: 1.12
+
+-- This file has been generated from package.yaml by hpack version 0.35.0.
+--
+-- see: https://github.com/sol/hpack
+
+name:           kcl
+version:        0.1.0.0
+description:    Please see the README on GitHub at <https://github.com/seek-oss/amazon-kinesis-client-haskell#readme>
+homepage:       https://github.com/seek-oss/amazon-kinesis-client-haskell#readme
+bug-reports:    https://github.com/seek-oss/amazon-kinesis-client-haskell/issues
+author:         Tom Mortiboy
+maintainer:     Tom Mortiboy
+copyright:      2020 seek-oss
+license:        BSD3
+license-file:   LICENSE
+build-type:     Simple
+extra-source-files:
+    README.md
+    ChangeLog.md
+
+source-repository head
+  type: git
+  location: https://github.com/seek-oss/amazon-kinesis-client-haskell
+
+library
+  exposed-modules:
+      Network.AWS.Kinesis.Client
+      Network.AWS.Kinesis.Client.Types
+  other-modules:
+      Paths_kcl
+  hs-source-dirs:
+      src
+  default-extensions:
+      LambdaCase
+      OverloadedStrings
+      RecordWildCards
+      ScopedTypeVariables
+  ghc-options: -Wall
+  build-depends:
+      aeson
+    , base >=4.7 && <5
+    , bytestring
+    , exceptions
+    , lens
+    , memory
+    , text
+    , time
+  default-language: Haskell2010
+
+executable kcl-bootstrap
+  main-is: Main.hs
+  other-modules:
+      Paths_kcl
+  hs-source-dirs:
+      bootstrap
+  default-extensions:
+      LambdaCase
+      OverloadedStrings
+      RecordWildCards
+      ScopedTypeVariables
+  ghc-options: -Wall -threaded -rtsopts -with-rtsopts=-N
+  build-depends:
+      aeson
+    , base >=4.7 && <5
+    , bytestring
+    , directory
+    , exceptions
+    , filepath
+    , http-client
+    , http-conduit
+    , kcl
+    , lens
+    , memory
+    , optparse-applicative
+    , process
+    , text
+    , time
+  default-language: Haskell2010
+
+executable kcl-sample-app
+  main-is: Main.hs
+  other-modules:
+      Paths_kcl
+  hs-source-dirs:
+      sample-app
+  default-extensions:
+      LambdaCase
+      OverloadedStrings
+      RecordWildCards
+      ScopedTypeVariables
+  ghc-options: -Wall -threaded -rtsopts -with-rtsopts=-N
+  build-depends:
+      aeson
+    , base >=4.7 && <5
+    , bytestring
+    , exceptions
+    , kcl
+    , lens
+    , memory
+    , safe-exceptions
+    , text
+    , time
+  default-language: Haskell2010
