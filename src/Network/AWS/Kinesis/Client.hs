@@ -6,11 +6,12 @@ module Network.AWS.Kinesis.Client
   ) where
 
 import           Control.Monad.Catch (MonadThrow(..))
-import           Data.Aeson (eitherDecode', encode)
+import           Data.Aeson (eitherDecodeStrict', toEncoding)
+import           Data.Aeson.Encoding (fromEncoding)
+import qualified Data.ByteString as BS
+import qualified Data.ByteString.Builder as B
 import           Data.Text (Text)
-import qualified Data.Text.IO as T
-import qualified Data.Text.Lazy.Encoding as LT
-import qualified Data.Text.Lazy.IO as LT
+import           Data.Text.Encoding (encodeUtf8Builder)
 import           System.IO (BufferMode(LineBuffering))
 import qualified System.IO as IO
 
@@ -29,11 +30,13 @@ instance KCLDaemon IO where
   kclInit = IO.hSetBuffering IO.stdout LineBuffering
   kclReadAction = IO.isEOF >>= \case
     True  -> throwM KCLCannotReadAction
-    False -> (eitherDecode' . LT.encodeUtf8 <$> LT.getLine) >>= \case
+    False -> (eitherDecodeStrict' <$> BS.getLine) >>= \case
       Left e -> throwM $ KCLActionParseError e
       Right action -> pure action
-  kclWriteAction = LT.putStrLn . LT.decodeUtf8 . encode
-  kclPutStrLn = T.hPutStrLn IO.stderr
+  kclWriteAction = 
+    B.hPutBuilder IO.stdout . (<> B.char7 '\n') . fromEncoding . toEncoding
+  kclPutStrLn = 
+    B.hPutBuilder IO.stdout . (<> B.char7 '\n') . encodeUtf8Builder
 
 runKCL :: forall m.
   ( MonadThrow m
